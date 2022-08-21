@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="Container">
+        <div class="PlayerBox">
+            <div class="Player1">
+                <img src='Images/message-black.svg' height='24px' width='24px'>
+                <div class="Player1Name">Player 1</div>
+                
+            </div>
+            <div class="Score">
+                <div class="ScoreImg">Score</div>
+                <div id="Player1Score">0</div>
+                <div id="Player2Score">0</div>
+            </div>
+            <div class="Player2">
+                <img src='Images/cog-black.svg' height='24px' width='24px'>
+                <div class="Player2Name">Player 2</div>
+            </div>
+            <div class="GameBoard">
+                <div class='Square'><img src='Images/message-black.svg' height='24px' width='24px'></div>
+                <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
+                <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const GameBoard = (() => {
+        let _Board = [[null, null, null],
+                      [null,null,null],
+                      [null,null,null]];
+
+        let _playerTurn = false;
+
+        const _player1Img = document.createElement('img');
+        _player1Img.src = 'Images/message-black.svg';
+        _player1Img.setAttribute('height','24px');
+        _player1Img.setAttribute('width','24px');
+        const _player2Img = document.createElement('img');
+        _player2Img.src = 'Images/cog-black.svg';
+        _player2Img.setAttribute('height','24px');
+        _player2Img.setAttribute('width','24px');
+        
+        const displayBoard = () => {
+            let fullDisplay = document.createElement('div');
+            fullDisplay.className = 'PlayerBox';
+
+            let p1Div = document.createElement('div');
+            p1Div.className = 'Player1';
+
+            // <div class="Player1">
+            //     <img src='Images/message-black.svg' height='24px' width='24px'>
+            //     <div class="Player1Name">Player 1</div>
+                
+            // </div>
+            // <div class="Score">
+            //     <div class="ScoreImg">Score</div>
+            //     <div id="Player1Score">0</div>
+            //     <div id="Player2Score">0</div>
+            // </div>
+            // <div class="Player2">
+            //     <img src='Images/cog-black.svg' height='24px' width='24px'>
+            //     <div class="Player2Name">Player 2</div>
+            // </div>
+
+            let outputBoard = document.createElement('div');
+            outputBoard.className = 'GameBoard';
+
+            _Board.forEach(row => {
+                row.forEach(column => {
+                    let outputSquare = document.createElement('div');
+                    outputSquare.className = 'Square';
+                    if(column == null){
+                        let outputNull = document.createElement('img');
+                        // outputX.src = _BlankImage;
+                        outputNull.setAttribute('height','24px');
+                        outputNull.setAttribute('width','24px');
+                        outputSquare.appendChild(outputNull)
+                    }
+                    else if(column) {
+                        // let outputX = document.createElement('img');
+                        // outputX.src = _player1Img;
+                        // outputX.setAttribute('height','24px');
+                        // outputX.setAttribute('width','24px');
+                        console.log("here");
+                        console.log(_player1Img.src);
+                        outputSquare.appendChild(_player1Img);
+                    }
+                    else {
+                        // let outputOh = document.createElement('img');
+                        // outputOh.src = _player2Img;
+                        // outputOh.setAttribute('height','24px');
+                        // outputOh.setAttribute('width','24px');
+                        outputSquare.appendChild(_player2Img);
+                    }
+                    outputSquare.addEventListener("click", e => { _sqrClicked(e);});
+                    outputBoard.append(outputSquare); 
+                })
+            });
+
+            return outputBoard;
+        };
+        
+        const _sqrClicked = (e) => {
+            console.log(e.target.children);
+            let _img = e.target;
+
+            if(_img.children.length != 0){
+                _img = _img.children[0];
+            }
+
+            console.log("imgsrc");
+            console.log(_img.src);
+            
+            if(_img.src != ""){
+                console.log("this has already been taken");
+            }
+            else {
+                if(_playerTurn) {
+                    _img.src = _player2Img.src;
+                }
+                else {
+                    _img.src = _player1Img.src;
+                }
+                _playerTurn = !_playerTurn;
+            }
+            _checkWin;
+        } 
+        const _checkWin = () => {
+            return false;
+        }
+
+        return {displayBoard};
+    })();
+
+    console.log(GameBoard.displayBoard());
+    document.querySelector('.Container').append(GameBoard.displayBoard());
+    
+    
+    const Player = (name) => {
+        const _wins = 0;
+        
+
+    };
+</script>
+</html>

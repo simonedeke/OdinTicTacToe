@@ -1,0 +1,42 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+.PlayerBox {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px 300px;
+    justify-items: center;
+    padding:20px;
+    background-color: rgb(111, 158, 80);
+}
+.GameBoard {
+    grid-area: 2/1/-1/-1;
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    width:300px;
+    gap:2px;
+}
+.Square {
+    background-color: darkgray;
+    align-items: center;
+    justify-items: center;
+    display: grid;
+}
+.Player1, .Player2 {
+    display: grid;
+    gap:10px;
+    grid-auto-flow: column;
+}
+.Score {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+.ScoreImg {
+    grid-area: 1/1/2/3;
+}
