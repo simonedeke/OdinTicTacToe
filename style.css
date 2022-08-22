@@ -28,7 +28,8 @@
 .Player1, .Player2 {
     display: grid;
     gap:10px;
-    grid-auto-flow: column;
+    align-items: center;
+    justify-items: center;
 }
 .Score {
     display: grid;

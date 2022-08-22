@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="Container">
-        <div class="PlayerBox">
+        <!-- <div class="PlayerBox">
             <div class="Player1">
                 <img src='Images/message-black.svg' height='24px' width='24px'>
                 <div class="Player1Name">Player 1</div>
@@ -35,8 +35,8 @@
                 <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
                 <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
             </div>
-        </div>
-    </div>
+        </div>-->
+    </div> 
 </body>
 
 <script>
@@ -49,12 +49,12 @@
 
         const _player1Img = document.createElement('img');
         _player1Img.src = 'Images/message-black.svg';
-        _player1Img.setAttribute('height','24px');
-        _player1Img.setAttribute('width','24px');
+        _player1Img.setAttribute('height','48px');
+        _player1Img.setAttribute('width','48px');
         const _player2Img = document.createElement('img');
         _player2Img.src = 'Images/cog-black.svg';
-        _player2Img.setAttribute('height','24px');
-        _player2Img.setAttribute('width','24px');
+        _player2Img.setAttribute('height','48px');
+        _player2Img.setAttribute('width','48px');
         
         const displayBoard = () => {
             let fullDisplay = document.createElement('div');
@@ -62,7 +62,38 @@
 
             let p1Div = document.createElement('div');
             p1Div.className = 'Player1';
+            p1Div.appendChild(_player1Img);
+            let p1NameDiv = document.createElement('div');
+            p1NameDiv.className = 'Player1';
+            p1NameDiv.innerText = 'Player 1';
+            p1Div.appendChild(p1NameDiv);
 
+            let scoreDiv = document.createElement('div');
+            scoreDiv.className = 'Score';
+            let scoreImgDiv = document.createElement('div');
+            scoreImgDiv.className = 'ScoreImg';
+            scoreImgDiv.innerText = 'Score';
+            let p1ScoreDiv = document.createElement('div');
+            p1ScoreDiv.className = 'Player1Score';
+            p1ScoreDiv.innerText = '0';
+            let p2ScoreDiv = document.createElement('div');
+            p2ScoreDiv.className = 'Player2Score';
+            p2ScoreDiv.innerText = '0';
+            scoreDiv.appendChild(scoreImgDiv);
+            scoreDiv.appendChild(p1ScoreDiv);
+            scoreDiv.appendChild(p2ScoreDiv);
+
+            let p2Div = document.createElement('div');
+            p2Div.className = 'Player2';
+            p2Div.appendChild(_player2Img);
+            let p2NameDiv = document.createElement('div');
+            p2NameDiv.className = 'Player2';
+            p2NameDiv.innerText = 'Player 2';
+            p2Div.appendChild(p2NameDiv);
+
+            fullDisplay.appendChild(p1Div);
+            fullDisplay.appendChild(scoreDiv);
+            fullDisplay.appendChild(p2Div);
             // <div class="Player1">
             //     <img src='Images/message-black.svg' height='24px' width='24px'>
             //     <div class="Player1Name">Player 1</div>
@@ -88,8 +119,8 @@
                     if(column == null){
                         let outputNull = document.createElement('img');
                         // outputX.src = _BlankImage;
-                        outputNull.setAttribute('height','24px');
-                        outputNull.setAttribute('width','24px');
+                        outputNull.setAttribute('height','48px');
+                        outputNull.setAttribute('width','48px');
                         outputSquare.appendChild(outputNull)
                     }
                     else if(column) {
@@ -97,8 +128,6 @@
                         // outputX.src = _player1Img;
                         // outputX.setAttribute('height','24px');
                         // outputX.setAttribute('width','24px');
-                        console.log("here");
-                        console.log(_player1Img.src);
                         outputSquare.appendChild(_player1Img);
                     }
                     else {
@@ -113,7 +142,8 @@
                 })
             });
 
-            return outputBoard;
+            fullDisplay.appendChild(outputBoard);
+            return fullDisplay;
         };
         
         const _sqrClicked = (e) => {
@@ -151,7 +181,18 @@
     console.log(GameBoard.displayBoard());
     document.querySelector('.Container').append(GameBoard.displayBoard());
     
-    
+
+    let testBoard = [[true, true, true],
+                      [true,false,true],
+                      [false,true,false]];
+
+    function testWin(testBoardWin) {
+        testBoardWin.forEach(row => {
+            row.every((currentValue) => currentValue) ? console.log("wintrue") : console.log("winfalse");
+        });
+    };
+
+    testWin(testBoard);
     const Player = (name) => {
         const _wins = 0;
         
