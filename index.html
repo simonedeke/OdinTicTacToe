@@ -182,16 +182,43 @@
     document.querySelector('.Container').append(GameBoard.displayBoard());
     
 
-    let testBoard = [[true, true, true],
-                      [true,false,true],
-                      [false,true,false]];
+    let testBoard = [[false, true, true],
+                      [false,true,false],
+                      [false,false,true]];
 
     function testWin(testBoardWin) {
+        let v1x = 0;
+        let v2x = 0;
+        let v3x = 0;
+        let v1oh = 0;
+        let v2oh = 0;
+        let v3oh = 0;
+        let crossL2R = 0;
+        let crossR2L = 0;
+        let win = false;
         testBoardWin.forEach(row => {
-            row.every((currentValue) => currentValue) ? console.log("wintrue") : console.log("winfalse");
+            if((row.every((currentValue) => currentValue)) && !win) {xWin();win=true;}
+            if((row.every((currentValue) => !currentValue)) && !win) {ohWin();win=true;}
+            row[0] ? v1x++ : v1oh++;
+            row[1] ? v2x++ : v2oh++;
+            row[2] ? v3x++ : v3oh++;
+            
+            if(v1x >2) {xWin();win=true;}
+            if(v2x >2 && !win) {xWin();win=true;}
+            if(v3x >2 && !win) {xWin();win=true;}
+            if(v1oh >2 && !win) {ohWin();win=true;}
+            if(v2oh >2 && !win) {ohWin();win=true;}
+            if(v3oh >2 && !win) {ohWin();win=true;}
         });
+
     };
 
+    function xWin() {
+        console.log("x wins");
+    }
+    function ohWin() {
+        console.log("oh wins");
+    }
     testWin(testBoard);
     const Player = (name) => {
         const _wins = 0;
