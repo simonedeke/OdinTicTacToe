@@ -46,13 +46,15 @@
                       [null,null,null]];
 
         let _playerTurn = false;
+        let _win = false;
 
         const _player1Img = document.createElement('img');
-        _player1Img.src = 'Images/message-black.svg';
+        _player1Img.src = 'Images/xmarker.png';
         _player1Img.setAttribute('height','48px');
         _player1Img.setAttribute('width','48px');
+
         const _player2Img = document.createElement('img');
-        _player2Img.src = 'Images/cog-black.svg';
+        _player2Img.src = 'Images/omarker.png';
         _player2Img.setAttribute('height','48px');
         _player2Img.setAttribute('width','48px');
         
@@ -112,8 +114,8 @@
             let outputBoard = document.createElement('div');
             outputBoard.className = 'GameBoard';
 
-            _Board.forEach(row => {
-                row.forEach(column => {
+            _Board.forEach((row, rIndex) => {
+                row.forEach((column, cIndex) => {
                     let outputSquare = document.createElement('div');
                     outputSquare.className = 'Square';
                     if(column == null){
@@ -137,7 +139,7 @@
                         // outputOh.setAttribute('width','24px');
                         outputSquare.appendChild(_player2Img);
                     }
-                    outputSquare.addEventListener("click", e => { _sqrClicked(e);});
+                    outputSquare.addEventListener("click", (e => { _sqrClicked(e,rIndex, cIndex);}));
                     outputBoard.append(outputSquare); 
                 })
             });
@@ -146,16 +148,16 @@
             return fullDisplay;
         };
         
-        const _sqrClicked = (e) => {
-            console.log(e.target.children);
+        const _sqrClicked = (e, rIndex, cIndex) => {
+            // console.log(e.target.children);
             let _img = e.target;
 
             if(_img.children.length != 0){
                 _img = _img.children[0];
             }
 
-            console.log("imgsrc");
-            console.log(_img.src);
+            // console.log("imgsrc");
+            // console.log(_img.src);
             
             if(_img.src != ""){
                 console.log("this has already been taken");
@@ -163,17 +165,94 @@
             else {
                 if(_playerTurn) {
                     _img.src = _player2Img.src;
+                    _Board[rIndex][cIndex] = false;
                 }
                 else {
                     _img.src = _player1Img.src;
+                    _Board[rIndex][cIndex] = true;
                 }
                 _playerTurn = !_playerTurn;
             }
-            _checkWin;
+
+            if(!_win) {_checkWin();}
         } 
-        const _checkWin = () => {
-            return false;
+
+        const _xWin = () => {
+            console.log("x wins");
         }
+
+        const _ohWin = () => {
+            console.log("oh wins");
+        }
+
+        const _tieGame = () => {
+            console.log("tie game");
+        }
+
+        const _checkWin = () => {
+            let v1x = 0;
+            let v2x = 0;
+            let v3x = 0;
+            let v1oh = 0;
+            let v2oh = 0;
+            let v3oh = 0;
+            let crossL2RX = 0;
+            let crossR2LX = 0;
+            let crossL2ROh = 0;
+            let crossR2LOh = 0;
+            
+            console.log("inside checkwin");
+            _Board.forEach((row, index) => {
+                //checks horizontal _wins
+                if(row.every((currentValue) => currentValue == true)) {_xWin();_win=true;}
+                if(row.every((currentValue) => currentValue == false)) {_ohWin();_win=true;}
+                
+                //counts vertical x's and o's
+                if(row[0] != null) {row[0] ? v1x++ : v1oh++;}
+                if(row[1] != null) {row[1] ? v2x++ : v2oh++;}
+                if(row[2] != null) {row[2] ? v3x++ : v3oh++;}
+
+                //check if a vertical win has occurred
+                if(v1x >2) {_xWin();_win=true;}
+                if(v2x >2) {_xWin();_win=true;}
+                if(v3x >2) {_xWin();_win=true;}
+                if(v1oh >2) {_ohWin();_win=true;}
+                if(v2oh >2) {_ohWin();_win=true;}
+                if(v3oh >2) {_ohWin();_win=true;}
+
+                //counts diagonal x's and o's
+                if(index == 0) {
+                    if(row[0] != null) {
+                        row[0] ? crossL2RX++ : crossL2ROh++;
+                    }
+                    if(row[2] != null) {
+                        row[2] ? crossR2LX++ : crossR2LOh++;
+                    }   
+                }
+                if(index == 1 && (row[1] != null)) {
+                    row[1] ? crossL2RX++ : crossL2ROh++;
+                    row[1] ? crossR2LX++ : crossR2LOh++;
+                }
+                if(index == 2) {
+                    if(row[0] != null) {
+                        row[0] ? crossR2LX++ : crossR2LOh++;
+                    }
+                    if(row[2] != null) {
+                        row[2] ? crossL2RX++ : crossL2ROh++;
+                    }   
+                }
+
+                //check if diagonal win has occurred
+                if(crossL2RX >2) {_xWin();_win=true;}
+                if(crossR2LX >2) {_xWin();_win=true;}
+                if(crossL2ROh >2) {_ohWin();_win=true;}
+                if(crossR2LOh >2) {_ohWin();_win=true;}
+                
+                
+            });
+            if(!(_Board.some((innerArray) => innerArray.some((innerValue) => innerValue == null)))) {_tieGame();}
+        }
+
 
         return {displayBoard};
     })();
@@ -181,45 +260,12 @@
     console.log(GameBoard.displayBoard());
     document.querySelector('.Container').append(GameBoard.displayBoard());
     
+    // let testBoard = [[false, true, false],
+    //                   [true,false,true],
+    //                   [true,false,true]];
 
-    let testBoard = [[false, true, true],
-                      [false,true,false],
-                      [false,false,true]];
-
-    function testWin(testBoardWin) {
-        let v1x = 0;
-        let v2x = 0;
-        let v3x = 0;
-        let v1oh = 0;
-        let v2oh = 0;
-        let v3oh = 0;
-        let crossL2R = 0;
-        let crossR2L = 0;
-        let win = false;
-        testBoardWin.forEach(row => {
-            if((row.every((currentValue) => currentValue)) && !win) {xWin();win=true;}
-            if((row.every((currentValue) => !currentValue)) && !win) {ohWin();win=true;}
-            row[0] ? v1x++ : v1oh++;
-            row[1] ? v2x++ : v2oh++;
-            row[2] ? v3x++ : v3oh++;
-            
-            if(v1x >2) {xWin();win=true;}
-            if(v2x >2 && !win) {xWin();win=true;}
-            if(v3x >2 && !win) {xWin();win=true;}
-            if(v1oh >2 && !win) {ohWin();win=true;}
-            if(v2oh >2 && !win) {ohWin();win=true;}
-            if(v3oh >2 && !win) {ohWin();win=true;}
-        });
-
-    };
-
-    function xWin() {
-        console.log("x wins");
-    }
-    function ohWin() {
-        console.log("oh wins");
-    }
-    testWin(testBoard);
+    // console.log(testBoard);
+    // console.log(testBoard.some((currentValue) => currentValue.some((innerValue) => innerValue == null)));                    
     const Player = (name) => {
         const _wins = 0;
         
