@@ -1,6 +1,11 @@
+@font-face {
+    font-family: Bangers;
+    src:url('Bangers-Regular.ttf')
+}
 * {
     margin:0;
     padding:0;
+    font-family: Bangers;
 }
 
 .PlayerBox {
@@ -9,7 +14,7 @@
     grid-template-rows: 100px 300px;
     justify-items: center;
     padding:20px;
-    background-color: rgb(111, 158, 80);
+    background-color: white;
 }
 .GameBoard {
     grid-area: 2/1/-1/-1;
@@ -17,10 +22,12 @@
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     width:300px;
-    gap:2px;
+    gap:4px;
 }
 .Square {
-    background-color: darkgray;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
     align-items: center;
     justify-items: center;
     display: grid;
@@ -30,6 +37,7 @@
     gap:10px;
     align-items: center;
     justify-items: center;
+    font-size: 24px;
 }
 .Score {
     display: grid;
@@ -37,6 +45,7 @@
     grid-template-rows: 1fr 1fr;
     align-items: center;
     justify-items: center;
+    font-size: 20px;
 }
 .ScoreImg {
     grid-area: 1/1/2/3;

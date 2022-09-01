@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="Container">
-        <!-- <div class="PlayerBox">
+        <div class="PlayerBox">
             <div class="Player1">
                 <img src='Images/message-black.svg' height='24px' width='24px'>
                 <div class="Player1Name">Player 1</div>
@@ -35,7 +35,10 @@
                 <div class="Square"><img src="Images/cog-black.svg" height="24px" width="24px"></div>
                 <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
             </div>
-        </div>-->
+            <div class="Controls">
+                button##
+            </div>
+        </div>
     </div> 
 </body>
 
@@ -49,12 +52,12 @@
         let _win = false;
 
         const _player1Img = document.createElement('img');
-        _player1Img.src = 'Images/xmarker.png';
+        _player1Img.src = 'Images/xmarker-white.png';
         _player1Img.setAttribute('height','48px');
         _player1Img.setAttribute('width','48px');
 
         const _player2Img = document.createElement('img');
-        _player2Img.src = 'Images/omarker.png';
+        _player2Img.src = 'Images/omarker-white.png';
         _player2Img.setAttribute('height','48px');
         _player2Img.setAttribute('width','48px');
         
@@ -119,11 +122,11 @@
                     let outputSquare = document.createElement('div');
                     outputSquare.className = 'Square';
                     if(column == null){
-                        let outputNull = document.createElement('img');
-                        // outputX.src = _BlankImage;
-                        outputNull.setAttribute('height','48px');
-                        outputNull.setAttribute('width','48px');
-                        outputSquare.appendChild(outputNull)
+                        let _unchosenImage = document.createElement('img');
+                        _unchosenImage.src = 'Images/blank-square.png';
+                        _unchosenImage.setAttribute('height','48px');
+                        _unchosenImage.setAttribute('width','48px');
+                        outputSquare.appendChild(_unchosenImage)
                     }
                     else if(column) {
                         // let outputX = document.createElement('img');
@@ -156,10 +159,9 @@
                 _img = _img.children[0];
             }
 
-            // console.log("imgsrc");
-            // console.log(_img.src);
-            
-            if(_img.src != ""){
+            console.log(_img.src.substring(_img.src.length - 9));
+            if(_img.src.substring(_img.src.length - 9, _img.src.length) == 'white.png'){
+
                 console.log("this has already been taken");
             }
             else {
@@ -257,8 +259,8 @@
         return {displayBoard};
     })();
 
-    console.log(GameBoard.displayBoard());
-    document.querySelector('.Container').append(GameBoard.displayBoard());
+    //console.log(GameBoard.displayBoard());
+    //document.querySelector('.Container').append(GameBoard.displayBoard());
     
     // let testBoard = [[false, true, false],
     //                   [true,false,true],
