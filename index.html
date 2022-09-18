@@ -36,7 +36,8 @@
                 <div class="Square"><img src="Images/message-black.svg" height="24px" width="24px"></div>
             </div>
             <div class="Controls">
-                button##
+                <button id="NewGame">Start Game</button>
+                <button id="Restart">Reset Score</button>
             </div>
         </div> -->
     </div> 
@@ -51,6 +52,23 @@
         let _playerTurn = false;
         let _win = false;
 
+        const _Player = (name) => {
+            const _wins = 0;
+            
+            const getName = () => name;
+
+            const setName = (newName) => name = newName; 
+
+            const addWin = () => _wins++;
+
+            const resetWins = () => _wins = 0;
+
+            return {getName, setName, addWin, resetWins};
+        };
+
+        const _player1 = _Player('Player 1');
+        const _player2 = _Player('Player 2');
+
         const _player1Img = document.createElement('img');
         _player1Img.src = 'Images/xmarker-white.png';
         _player1Img.setAttribute('height','48px');
@@ -60,6 +78,8 @@
         _player2Img.src = 'Images/omarker-white.png';
         _player2Img.setAttribute('height','48px');
         _player2Img.setAttribute('width','48px');
+
+        let _playerWinDiv
         
         const displayBoard = () => {
             let fullDisplay = document.createElement('div');
@@ -69,8 +89,8 @@
             p1Div.className = 'Player1';
             p1Div.appendChild(_player1Img);
             let p1NameDiv = document.createElement('div');
-            p1NameDiv.className = 'Player1';
-            p1NameDiv.innerText = 'Player 1';
+            p1NameDiv.className = 'Player1Name';
+            p1NameDiv.innerText = _player1.getName();
             p1Div.appendChild(p1NameDiv);
 
             let scoreDiv = document.createElement('div');
@@ -92,8 +112,8 @@
             p2Div.className = 'Player2';
             p2Div.appendChild(_player2Img);
             let p2NameDiv = document.createElement('div');
-            p2NameDiv.className = 'Player2';
-            p2NameDiv.innerText = 'Player 2';
+            p2NameDiv.className = 'Player2Name';
+            p2NameDiv.innerText = _player2.getName();
             p2Div.appendChild(p2NameDiv);
 
             fullDisplay.appendChild(p1Div);
@@ -148,6 +168,25 @@
             });
 
             fullDisplay.appendChild(outputBoard);
+
+            let controlDiv = document.createElement('div');
+            controlDiv.className = 'Controls';
+
+            let newGameButton = document.createElement('button');
+            newGameButton.id = 'NewGame';
+            newGameButton.innerText = 'Start Game';
+            newGameButton.addEventListener("click", _newGame);
+
+            let resetButton = document.createElement('button');
+            resetButton.id = 'Reset';
+            resetButton.innerText = 'Reset Board';
+            resetButton.addEventListener("click", _resetBoard);
+
+            controlDiv.appendChild(newGameButton);
+            controlDiv.appendChild(resetButton);
+
+            fullDisplay.appendChild(controlDiv);
+
             return fullDisplay;
         };
         
@@ -180,6 +219,7 @@
         } 
 
         const _xWin = () => {
+            //document.querySelector('.Container').innerHTML += ""
             console.log("x wins");
         }
 
@@ -189,6 +229,32 @@
 
         const _tieGame = () => {
             console.log("tie game");
+        }
+
+        const _newGame = () => {
+            _player1.setName(window.prompt("Enter Player's Name"));
+            _player2.setName(window.prompt("Enter Player's Name"));
+            //const newPlayerOne = _Player("simon");
+            document.querySelector('.Player1Name').innerText = _player1.getName();
+            document.querySelector('.Player2Name').innerText = _player2.getName();
+            document.querySelector('.NewGame').innerText = "New Game";
+            _resetBoard();
+            document.querySelector('.Player1Score').innerText = 0;
+            document.querySelector('.Player2Score').innerText = 0;
+
+
+            console.log(_player1.getName());
+            console.log("new game");
+        }
+
+        const _resetBoard = () => {
+            _Board = [[null, null, null],
+                      [null,null,null],
+                      [null,null,null]];
+            document.getElementsByClassName('Sqaure').forEach(element => {
+                element
+            });
+            
         }
 
         const _checkWin = () => {
@@ -268,10 +334,15 @@
 
     // console.log(testBoard);
     // console.log(testBoard.some((currentValue) => currentValue.some((innerValue) => innerValue == null)));                    
-    const Player = (name) => {
-        const _wins = 0;
+    // const Player = (name) => {
+    //     const _wins = 0;
         
+    //     const getName = () => name;
 
-    };
+    //     const addWin = () => _wins++;
+
+    //     const resetWins = () => _wins = 0;
+
+    // };
 </script>
 </html>

@@ -11,18 +11,32 @@
 .PlayerBox {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 100px 300px;
+    grid-template-rows: 1fr 3fr 1fr;
     justify-items: center;
+    align-items: center;
     padding:20px;
     background-color: white;
 }
 .GameBoard {
-    grid-area: 2/1/-1/-1;
+    grid-area: 2/1/3/4;
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
-    width:300px;
-    gap:4px;
+    gap:5px;
+}
+.Controls {
+    grid-area: 3/1/4/4;
+    padding-top:20px;
+    display: grid;
+    gap:40px;
+    grid-template-columns: 1fr 1fr;
+}
+#NewGame, #Reset {
+    padding: 10px 20px;
+    height:60px;
+    font-size: 20px;
+    background-color: black;
+    color: white;
 }
 .Square {
     border: none;
