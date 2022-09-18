@@ -53,7 +53,7 @@
         let _win = false;
 
         const _Player = (name) => {
-            const _wins = 0;
+            let _wins = 0;
             
             const getName = () => name;
 
@@ -61,9 +61,11 @@
 
             const addWin = () => _wins++;
 
+            const getWins = () => _wins;
+
             const resetWins = () => _wins = 0;
 
-            return {getName, setName, addWin, resetWins};
+            return {getName, setName, addWin, getWins, resetWins};
         };
 
         const _player1 = _Player('Player 1');
@@ -174,7 +176,7 @@
 
             let newGameButton = document.createElement('button');
             newGameButton.id = 'NewGame';
-            newGameButton.innerText = 'Start Game';
+            newGameButton.innerText = 'New Game';
             newGameButton.addEventListener("click", _newGame);
 
             let resetButton = document.createElement('button');
@@ -198,7 +200,8 @@
                 _img = _img.children[0];
             }
 
-            console.log(_img.src.substring(_img.src.length - 9));
+            //console.log(_img.src.substring(_img.src.length - 9));
+            //if()
             if(_img.src.substring(_img.src.length - 9, _img.src.length) == 'white.png'){
 
                 console.log("this has already been taken");
@@ -219,29 +222,56 @@
         } 
 
         const _xWin = () => {
-            //document.querySelector('.Container').innerHTML += ""
-            console.log("x wins");
+            if(!_win) {
+                let _resultBox = document.createElement('div');
+                _resultBox.id = 'ResultBox';
+                _resultBox.innerText = _player1.getName() + ' Wins The Game';
+                document.querySelector('.Container').append(_resultBox);
+
+                _player1.addWin();
+                document.querySelector('.Player1Score').innerText = _player1.getWins();
+                console.log("x wins");
+            }
         }
 
         const _ohWin = () => {
-            console.log("oh wins");
+            if(!_win) {
+                let _resultBox = document.createElement('div');
+                _resultBox.id = 'ResultBox';
+                _resultBox.innerText = _player2.getName() + ' Wins The Game';
+                document.querySelector('.Container').append(_resultBox);
+
+                _player2.addWin();
+                document.querySelector('.Player2Score').innerText = _player2.getWins();
+                console.log("oh wins");
+            }
         }
 
         const _tieGame = () => {
+            let _resultBox = document.createElement('div');
+            _resultBox.id = 'ResultBox';
+            _resultBox.innerText = "Cat's Game (Tie Game)";
+            document.querySelector('.Container').append(_resultBox);
             console.log("tie game");
         }
 
         const _newGame = () => {
-            _player1.setName(window.prompt("Enter Player's Name"));
-            _player2.setName(window.prompt("Enter Player's Name"));
+            let _p1TempName = window.prompt("Enter Player's Name");
+            let _p2TempName = window.prompt("Enter Player's Name");
+
+            _player1.setName((_p1TempName.length == 0) ? 'Player 1' : _p1TempName);
+            _player2.setName((_p2TempName.length == 0) ? 'Player 2' : _p2TempName);
+
+            //_player2.setName(window.prompt("Enter Player's Name"));
             //const newPlayerOne = _Player("simon");
             document.querySelector('.Player1Name').innerText = _player1.getName();
             document.querySelector('.Player2Name').innerText = _player2.getName();
-            document.querySelector('.NewGame').innerText = "New Game";
+            document.querySelector('#NewGame').innerText = "New Game";
             _resetBoard();
             document.querySelector('.Player1Score').innerText = 0;
+            _player1.resetWins();
             document.querySelector('.Player2Score').innerText = 0;
-
+            _player2.resetWins();
 
             console.log(_player1.getName());
             console.log("new game");
@@ -251,9 +281,13 @@
             _Board = [[null, null, null],
                       [null,null,null],
                       [null,null,null]];
-            document.getElementsByClassName('Sqaure').forEach(element => {
-                element
+            Array.from(document.getElementsByClassName('Square')).forEach(element => {
+                element.children[0].src = 'Images/blank-square.png';
             });
+            if(document.getElementById('ResultBox') != null) {
+                document.querySelector('.Container').removeChild(document.getElementById('ResultBox'));
+            }
+            _win = false;
             
         }
 
@@ -269,7 +303,7 @@
             let crossL2ROh = 0;
             let crossR2LOh = 0;
             
-            console.log("inside checkwin");
+            //console.log("inside checkwin");
             _Board.forEach((row, index) => {
                 //checks horizontal _wins
                 if(row.every((currentValue) => currentValue == true)) {_xWin();_win=true;}
@@ -318,7 +352,7 @@
                 
                 
             });
-            if(!(_Board.some((innerArray) => innerArray.some((innerValue) => innerValue == null)))) {_tieGame();}
+            if(!_win && (!(_Board.some((innerArray) => innerArray.some((innerValue) => innerValue == null))))) {_tieGame();}
         }
 
 

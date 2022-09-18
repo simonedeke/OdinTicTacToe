@@ -8,6 +8,16 @@
     font-family: Bangers;
 }
 
+.Container {
+    position:relative;
+}
+#ResultBox {
+    padding:20px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+}
 .PlayerBox {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
